@@ -1,0 +1,142 @@
+<!-- Header -->
+<div class="flex items-center justify-between mb-5">
+  <h5 class="text-lg font-bold text-gray-800">🎓 Students</h5>
+
+  <a routerLink="/student/add" class="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg
+  transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+    Add Student
+  </a>
+</div>
+
+<!-- Loader -->
+<app-loader [show]="loading"></app-loader>
+
+<!-- Table -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden" *ngIf="!loading">
+  <table class="w-full text-sm">
+
+    <thead>
+      <tr class="bg-blue-50 text-blue-700 text-left">
+        <th class="px-4 py-3 font-semibold w-10">#</th>
+        <th class="px-4 py-3 font-semibold">
+          <div class="flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5.121 17.804A7 7 0 1112 19a7 7 0 01-6.879-1.196z" />
+            </svg>
+            Student Name
+          </div>
+        </th>
+        <th class="px-4 py-3 font-semibold">
+          <div class="flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 12H8m0 0l4-4m-4 4l4 4M4 6h16M4 18h16" />
+            </svg>
+            Email
+          </div>
+        </th>
+        <th class="px-4 py-3 font-semibold">
+          <div class="flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 5a2 2 0 012-2h2l2 4-2 2a14 14 0 006 6l2-2 4 2v2a2 2 0 01-2 2A18 18 0 013 5z" />
+            </svg>
+            Phone
+          </div>
+        </th>
+        <th class="px-4 py-3 font-semibold">
+          <div class="flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+            </svg>
+            Grade
+          </div>
+        </th>
+        <th class="px-4 py-3 font-semibold text-center">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (s of students; track s.id; let i = $index) {
+      <tr class="border-t border-gray-100 hover:bg-gray-50 transition">
+        <td class="px-4 py-3 text-gray-400 font-medium">{{ i + 1 }}</td>
+
+        <td class="px-4 py-3">
+          <div class="flex items-center gap-2">
+            <div
+              class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-semibold text-xs uppercase">
+              {{ s?.data?.name?.charAt(0) }}
+            </div>
+            <span class="text-gray-800 font-medium">{{ s?.data?.name }}</span>
+          </div>
+        </td>
+
+        <td class="px-4 py-3 text-gray-500">{{ s?.data?.email }}</td>
+
+        <td class="px-4 py-3 text-gray-500">{{ s?.data?.phone }}</td>
+
+        <td class="px-4 py-3">
+          <span class="bg-blue-50 text-blue-600 text-xs font-semibold px-2 py-1 rounded-full">
+            {{ s?.data?.grade }}
+          </span>
+        </td>
+
+        <td class="px-4 py-3">
+          <div class="flex items-center justify-center gap-2">
+            <a [routerLink]="['/student/edit', s.id]" class="flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50
+              hover:bg-amber-100 px-2.5 py-1.5 rounded-lg transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828A2 2 0 019 16H7v-2a2 2 0 01.586-1.414z" />
+              </svg>
+              Edit
+            </a>
+            <button (click)="deleteClicked(s.id)" [disabled]="deletingId === s.id" class="flex items-center gap-1 text-xs font-medium text-red-600 bg-red-50
+         hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed
+         px-2.5 py-1.5 rounded-lg transition">
+              <!-- Spinner only for this row -->
+              <svg *ngIf="deletingId === s.id" class="animate-spin h-3.5 w-3.5 text-red-500"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+              </svg>
+
+              <!-- Delete icon jab loading nahi -->
+              <svg *ngIf="deletingId !== s.id" xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0a1 1 0 00-1-1h-4a1 1 0 00-1 1m-4 0h10" />
+              </svg>
+
+              {{ deletingId === s.id ? 'Deleting...' : 'Delete' }}
+            </button>
+          </div>
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td colspan="6" class="text-center py-12 text-gray-400">
+          <div class="flex flex-col items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M9 17v-2a4 4 0 014-4h0a4 4 0 014 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" />
+            </svg>
+            <span class="text-sm">No students found.</span>
+            <a routerLink="/student/add" class="text-blue-500 text-xs hover:underline">+ Add your first student</a>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

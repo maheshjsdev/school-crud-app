@@ -1,0 +1,47 @@
+<header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shadow-sm">
+
+    <!-- Left: Logo + Nav -->
+    <div class="flex items-center gap-6">
+        <span class="text-blue-600 font-bold text-lg">📘 SchoolApp</span>
+
+        <nav class="flex items-center gap-1">
+
+            <!-- Student: only /student -->
+            <ng-container *ngIf="role === 'student'">
+
+                <a routerLink="/student" routerLinkActive="bg-blue-50 text-blue-600 font-medium"
+                    class="px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition">
+                    🎓 Students
+                </a>
+            </ng-container>
+
+            <!-- Teacher: /student + /teacher -->
+            <ng-container *ngIf="role === 'teacher'">
+                <a routerLink="/student" routerLinkActive="bg-blue-50 text-blue-600 font-medium"
+                    class="px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition">
+                    🎓 Students
+                </a>
+
+                <a routerLink="/teacher" routerLinkActive="bg-blue-50 text-blue-600 font-medium"
+                    class="px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition">
+                    👩‍🏫 Teachers
+                </a>
+            </ng-container>
+
+        </nav>
+    </div>
+
+    <!-- Right: Role badge + Name + Logout -->
+    <div class="flex items-center gap-3">
+        <!-- Name -->
+        <span class="text-sm text-gray-700 font-medium">{{ name }}</span>
+
+        <!-- Logout -->
+        <button (click)="auth.logout()" class="flex items-center gap-1 text-sm text-red-500 hover:text-red-600
+             hover:bg-red-50 px-3 py-1.5 rounded-lg transition">
+            🚪 Logout
+        </button>
+
+    </div>
+
+</header>

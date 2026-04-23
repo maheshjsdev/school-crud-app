@@ -1,0 +1,155 @@
+<!-- Header -->
+<div class="flex items-center justify-between mb-5">
+    <h5 class="text-lg font-bold text-gray-800">👩‍🏫 Teachers</h5>
+
+    <a routerLink="/teacher/add" class="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-lg
+    transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Add Teacher
+    </a>
+</div>
+
+<!-- Loader -->
+<app-loader [show]="loading"></app-loader>
+
+<!-- Table -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden" *ngIf="!loading">
+    <table class="w-full text-sm">
+
+        <thead>
+            <tr class="bg-green-50 text-green-700 text-left">
+                <th class="px-4 py-3 font-semibold w-10">#</th>
+                <th class="px-4 py-3 font-semibold">
+                    <div class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5.121 17.804A7 7 0 1112 19a7 7 0 01-6.879-1.196z" />
+                        </svg>
+                        Teacher Name
+                    </div>
+                </th>
+                <th class="px-4 py-3 font-semibold">
+                    <div class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        Email
+                    </div>
+                </th>
+                <th class="px-4 py-3 font-semibold">
+                    <div class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5a2 2 0 012-2h2l2 4-2 2a14 14 0 006 6l2-2 4 2v2a2 2 0 01-2 2A18 18 0 013 5z" />
+                        </svg>
+                        Phone
+                    </div>
+                </th>
+                <th class="px-4 py-3 font-semibold">
+                    <div class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        Subject
+                    </div>
+                </th>
+                <th class="px-4 py-3 font-semibold text-center">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (t of teachers; track t.id; let i = $index) {
+            <tr class="border-t border-gray-100 hover:bg-gray-50 transition">
+                <td class="px-4 py-3 text-gray-400 font-medium">{{ i + 1 }}</td>
+
+                <!-- Name with avatar -->
+                <td class="px-4 py-3">
+                    <div class="flex items-center gap-2">
+                        <div
+                            class="h-8 w-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-semibold text-xs uppercase">
+                            {{ t?.data?.name?.charAt(0) }}
+                        </div>
+                        <span class="text-gray-800 font-medium">{{ t?.data?.name }}</span>
+                    </div>
+                </td>
+
+                <!-- Email -->
+                <td class="px-4 py-3 text-gray-500">{{ t?.data?.email }}</td>
+
+                <!-- Phone -->
+                <td class="px-4 py-3 text-gray-500">{{ t?.data?.phone }}</td>
+
+                <!-- Subject badge -->
+                <td class="px-4 py-3">
+                    <span class="bg-green-50 text-green-600 text-xs font-semibold px-2 py-1 rounded-full">
+                        {{ t?.data?.subject }}
+                    </span>
+                </td>
+
+                <!-- Actions -->
+                <td class="px-4 py-3">
+                    <div class="flex items-center justify-center gap-2">
+
+                        <a [routerLink]="['/teacher/edit', t.id]" class="flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50
+                        hover:bg-amber-100 px-2.5 py-1.5 rounded-lg transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828A2 2 0 019 16H7v-2a2 2 0 01.586-1.414z" />
+                            </svg>
+                            Edit
+                        </a>
+                        <button (click)="deleteClicked(t.id)" [disabled]="deletingId === t.id" class="flex items-center gap-1 text-xs font-medium text-red-600 bg-red-50
+         hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed
+         px-2.5 py-1.5 rounded-lg transition">
+                            <!-- Spinner only for this row -->
+                            <svg *ngIf="deletingId === t.id" class="animate-spin h-3.5 w-3.5 text-red-500"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                            </svg>
+
+                            <!-- Delete icon jab loading nahi -->
+                            <svg *ngIf="deletingId !== t.id" xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0a1 1 0 00-1-1h-4a1 1 0 00-1 1m-4 0h10" />
+                            </svg>
+
+                            {{ deletingId === t.id ? 'Deleting...' : 'Delete' }}
+                        </button>
+                    </div>
+                </td>
+
+            </tr>
+            }
+            @empty {
+            <!-- Empty state -->
+            <tr *ngIf="teachers.length === 0">
+                <td colspan="6" class="text-center py-12 text-gray-400">
+                    <div class="flex flex-col items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M9 17v-2a4 4 0 014-4h0a4 4 0 014 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" />
+                        </svg>
+                        <span class="text-sm">No teachers found.</span>
+                        <a routerLink="/teacher/add" class="text-green-500 text-xs hover:underline">+ Add your first
+                            teacher</a>
+                    </div>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
