@@ -15,7 +15,8 @@
 <app-loader [show]="loading"></app-loader>
 
 <!-- Table -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden" *ngIf="!loading">
+@if(!loading){
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
     <table class="w-full text-sm">
 
         <thead>
@@ -153,3 +154,4 @@
         </tbody>
     </table>
 </div>
+}

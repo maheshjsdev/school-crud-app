@@ -1,0 +1,60 @@
+@let control = this.control;
+
+<div>
+    <label class="block text-sm font-medium text-gray-700 mb-1 mt-3">
+        {{ label }}
+        @if (isRequired) {
+        <span class="text-red-500">*</span>
+        }
+    </label>
+
+    <!-- 🔹 INPUT FIELD -->
+    @if (type !== 'select') {
+    <input [type]="type" [formControlName]="controlName" [placeholder]="placeholder" [attr.minlength]="minlength"
+        [attr.maxlength]="maxlength" class="w-full px-3 py-2 rounded-lg border text-sm outline-none transition
+             focus:ring-2 focus:ring-blue-500 focus:border-blue-500" [class.border-red-500]="isInvalid()"
+        [class.focus:ring-red-200]="isInvalid()" [class.border-green-500]="control?.valid && control?.touched"
+        [class.border-gray-300]="!isInvalid() && !(control?.valid && control?.touched)" />
+    }
+
+    <!-- 🔹 SELECT FIELD -->
+    @if (type === 'select') {
+    <select [formControlName]="controlName" class="w-full px-3 py-2 rounded-lg border text-sm outline-none transition bg-white
+             focus:ring-2 focus:ring-blue-500 focus:border-blue-500" [class.border-red-500]="isInvalid()"
+        [class.focus:ring-red-200]="isInvalid()" [class.border-green-500]="control?.valid && control?.touched"
+        [class.border-gray-300]="!isInvalid() && !(control?.valid && control?.touched)">
+        <option value="">-- Select {{ label }} --</option>
+
+        @for (option of options; track option) {
+        <option [value]="option">{{ option }}</option>
+        }
+    </select>
+    }
+
+    <!-- 🔴 ERROR MESSAGES -->
+    @if (isInvalid()) {
+    <div class="mt-1 text-xs text-red-500 mb-3">
+
+        @if (control?.errors?.['required']) {
+        <div>{{ label }} is required.</div>
+        }
+
+        @if (control?.errors?.['email']) {
+        <div>Enter a valid email address.</div>
+        }
+
+        @if (control?.errors?.['pattern'] && patternType === 'phone') {
+        <div>Enter a valid 10-digit Indian mobile number.</div>
+        }
+
+        @if (control?.errors?.['minlength']) {
+        <div>Minimum {{ minlength }} characters required.</div>
+        }
+
+        @if (control?.errors?.['maxlength']) {
+        <div>Maximum {{ maxlength }} characters allowed.</div>
+        }
+
+    </div>
+    }
+</div>

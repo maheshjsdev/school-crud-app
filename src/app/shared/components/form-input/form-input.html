@@ -1,0 +1,44 @@
+@let control = this.control;
+
+<div>
+  <label class="form-label">
+    {{ label }}
+    @if (isRequired) {
+      <span class="text-danger">*</span>
+    }
+  </label>
+
+  <input
+    class="w-full px-3 py-2 rounded-lg border text-sm outline-none transition
+           focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+    
+    [type]="type"
+    [placeholder]="placeholder"
+    [formControlName]="controlName"
+    [attr.minlength]="minlength"
+    [attr.maxlength]="maxlength"
+
+    [class.border-red-500]="isInvalid()"
+    [class.focus:ring-red-200]="isInvalid()"
+    [class.border-green-500]="control?.valid && control?.touched"
+    [class.border-gray-300]="!isInvalid() && !(control?.valid && control?.touched)"
+  />
+
+  @if (isInvalid()) {
+    <div class="mt-1 text-xs text-red-500">
+
+      @if (control?.errors?.['required']) {
+        <div>This field is required</div>
+      }
+
+      @if (control?.errors?.['minlength']) {
+        <div>Minimum {{ minlength }} characters required</div>
+      }
+
+      @if (control?.errors?.['maxlength']) {
+        <div>Maximum {{ maxlength }} characters allowed</div>
+      }
+
+    </div>
+  }
+</div>
