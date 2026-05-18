@@ -17,6 +17,14 @@ const routes: Routes = [
       import('../app/modules/auth/auth-module').then(m => m.AuthModule),
   },
   {
+    path: 'academic-configuration',
+    component: MainLayout,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['student', 'teacher'] },
+    loadChildren: () => import('../app/modules/academic-configuration/academic-configuration-module').then(m => m.AcademicConfigurationModule),
+
+  },
+  {
     path: 'student',
     component: MainLayout,
     canActivate: [AuthGuard, RoleGuard],

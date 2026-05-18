@@ -1,1 +1,51 @@
-<p>sidebar works!</p>
+<nz-layout style="min-height: 100vh;">
+
+    <nz-sider nzCollapsible [nzCollapsed]="isCollapsed" nzTheme="dark" [nzWidth]="220" [nzCollapsedWidth]="64"
+        (nzCollapsedChange)="toggleCollapse($event)">
+
+        <div class="sidebar-logo">
+            @if(!isCollapsed) {
+            <span>📘 SchoolApp</span>
+            }
+
+            @if(isCollapsed) {
+            <span>📘</span>
+            }
+        </div>
+
+        <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+            <li nz-submenu nzTitle="User" nzIcon="user">
+                <ul>
+                    <li nz-menu-item routerLink="/student" routerLinkActive="ant-menu-item-selected">Student</li>
+                    <li nz-menu-item routerLink="/teacher" routerLinkActive="ant-menu-item-selected">Teacher</li>
+                    <li nz-menu-item routerLinkActive="ant-menu-item-selected">Parent</li>
+                </ul>
+            </li>
+
+            <li nz-submenu nzTitle="Team" nzIcon="team">
+                <ul>
+                    <li nz-menu-item>Team 1</li>
+                    <li nz-menu-item>Team 2</li>
+                </ul>
+            </li>
+
+            <li nz-menu-item>
+                <span nz-icon nzType="file"></span>
+                <span>File</span>
+            </li>
+            <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+                <span nz-icon nzType="file"></span>
+                <span routerLink="/academic-configuration" >Academic Configuration</span>
+            </li>
+        </ul>
+
+    </nz-sider>
+
+    <nz-layout>
+        <app-header [(isCollapsed)]="isCollapsed" />
+        <nz-content>
+            <router-outlet></router-outlet>
+        </nz-content>
+    </nz-layout>
+
+</nz-layout>

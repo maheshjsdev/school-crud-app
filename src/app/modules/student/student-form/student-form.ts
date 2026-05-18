@@ -1,10 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudentService } from '../student.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../../core/services/api.service';
-import { finalize } from 'rxjs';
-
 @Component({
   selector: 'app-student-form',
   standalone: false,
@@ -12,18 +9,18 @@ import { finalize } from 'rxjs';
   styleUrl: './student-form.css',
 })
 export class StudentForm implements OnInit {
+
   addUpdateForm: FormGroup;
   isEdit = false;
   id!: string;
 
   grades = ['8th', '9th', '10th', '11th', '12th'];
-  loading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private apiService: ApiService, private cdr: ChangeDetectorRef
+    public studentService: StudentService
   ) {
     this.addUpdateForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -31,63 +28,59 @@ export class StudentForm implements OnInit {
       phone: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
       grade: ['', Validators.required],
     });
+
+    // 🔥 auto patch form when signal updates
+    effect(() => {
+      const student = this.studentService.selectedStudent();
+      if (student) {
+        this.addUpdateForm.patchValue(student);
+      }
+    });
   }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+
     if (id) {
       this.id = id;
       this.isEdit = true;
-      this.patchData();
+
+      // 🔥 call service (handles cache + API)
+      this.studentService.getStudentById(id);
     }
   }
 
-  // shorthand for template
-  get f() { return this.addUpdateForm.controls; }
 
-  isInvalid(field: string): boolean {
-    const c = this.addUpdateForm.get(field)!;
-    return c.invalid && (c.dirty || c.touched);
-  }
-
-  patchData(): void {
-
-    this.apiService.get<any[]>(`student/objects/${this.id}`)
-      .pipe(finalize(() => (this.cdr.detectChanges())))
-      .subscribe({
-        next: (data: any) => {
-          if (data) {
-            this.addUpdateForm.patchValue(data?.data || {});
-          } else {
-            console.warn('API returned no data for this student.');
-          }
-        },
-        error: () => {
-        }
-      });
-  }
+  // 🔥 submit
   addUpdateClicked(): void {
     if (this.addUpdateForm.invalid) {
       this.addUpdateForm.markAllAsTouched();
       return;
     }
 
-    this.loading = true;
-    const formValue = {
-      name: 'student',
-      data: this.addUpdateForm.value,
-    }
-    const url = this.isEdit ? `student/objects/${this.id}` : 'student/objects';
-    const method = this.isEdit ? 'put' : 'post';
-    this.apiService[method]<any[]>(url, formValue)
-      .pipe(finalize(() => (this.loading = false)))
+    this.studentService
+      .saveStudent(this.isEdit ? this.id : null, this.addUpdateForm.value)
       .subscribe({
-        next: (data: any) => {
-          this.router.navigate(['/student'])
+        next: (res: any) => {
+
+          if (this.isEdit) {
+            // ✅ update only that student
+            this.studentService.updateStudentInState(res);
+          } else {
+            // ✅ add new student
+            this.studentService.addStudentToState(res);
+          }
+
+          this.resetForm();
         },
-        error: () => {
-          console.warn('form submission failed');
-        }
+        error: () => console.warn('form submission failed')
       });
+  }
+  resetForm() {
+    this.addUpdateForm.reset();
+    this.addUpdateForm.markAsUntouched();
+    this.addUpdateForm.markAsPristine();
+    this.studentService.selectedStudent.set(null)
+    this.router.navigate(['/student']);
   }
 }

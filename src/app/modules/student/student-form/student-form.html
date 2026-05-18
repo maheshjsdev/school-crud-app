@@ -1,3 +1,5 @@
+<app-loader [show]="studentService.loading()"></app-loader>
+@if(!studentService.loading()){
 <div class="bg-white rounded-2xl shadow-md p-6 w-full max-w-lg">
     <h5 class="text-lg font-semibold text-gray-800 mb-5">
         {{ isEdit ? '✏️ Edit' : '➕ Add' }} Student
@@ -35,12 +37,12 @@
 
         <!-- Actions -->
         <div class="flex gap-3 pt-2 mt-3">
-            <button type="button" (click)="addUpdateClicked()" [disabled]="loading" class="flex items-center gap-2 px-5 py-2 bg-blue-600 hover:bg-blue-700
+            <button type="button" (click)="addUpdateClicked()" [disabled]="studentService.buttonLoading()" class="flex items-center gap-2 px-5 py-2 bg-blue-600 hover:bg-blue-700
                disabled:opacity-60 disabled:cursor-not-allowed
                text-white text-sm font-medium rounded-lg transition">
 
                 <!-- Spinner (Modern Syntax) -->
-                @if (loading) {
+                @if (studentService.buttonLoading()) {
                 <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -50,14 +52,14 @@
 
                 <span>
                     {{
-                    loading
+                    studentService.buttonLoading()
                     ? (isEdit ? 'Updating...' : 'Saving...')
                     : (isEdit ? 'Update' : 'Save')
                     }}
                 </span>
             </button>
 
-            <a routerLink="/student"
+            <a (click)="resetForm()"
                 class="px-5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition cursor-pointer">
                 Cancel
             </a>
@@ -65,3 +67,4 @@
 
     </form>
 </div>
+}
