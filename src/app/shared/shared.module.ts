@@ -27,24 +27,52 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { NzDrawerModule, } from 'ng-zorro-antd/drawer';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzFormModule } from 'ng-zorro-antd/form';
-const icons = [UserOutline, TeamOutline, FileOutline, MenuFoldOutline, MenuUnfoldOutline, SettingOutline];
+import { NzModalModule } from 'ng-zorro-antd/modal';
+const icons = [
+  UserOutline,
+  TeamOutline,
+  FileOutline,
+  MenuFoldOutline,
+  MenuUnfoldOutline,
+  SettingOutline,
+];
 import {
   UserOutline,
   TeamOutline,
   FileOutline,
   MenuFoldOutline,
   MenuUnfoldOutline,
-  SettingOutline
+  SettingOutline,
 } from '@ant-design/icons-angular/icons';
 import { Tabs } from './components/tabs/tabs';
 import { Drawer } from './components/drawer/drawer';
 import { Settings } from './components/settings/settings';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { Table } from './components/table/table';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { FormModal } from './components/form-modal/form-modal';
+import { InputText } from './components/input-text/input-text';
+import { InputNumber } from './components/input-number/input-number';
+import { FormSwitch } from './components/form-switch/form-switch';
 
 @NgModule({
-  declarations: [Header, Sidebar, Loader, FormInput, FormField, Tabs, Drawer, Settings],
+  declarations: [
+    Header,
+    Sidebar,
+    Loader,
+    FormInput,
+    FormField,
+    Tabs,
+    Drawer,
+    Settings,
+    Table,
+    FormModal,
+    InputText,
+    InputNumber,
+    FormSwitch,
+  ],
   imports: [
     // Angular
     CommonModule,
@@ -69,9 +97,9 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
     NzTabsModule,
     NzDrawerModule,
     NzFormModule,
-    NzFlexModule
-
-
+    NzFlexModule,
+    NzTableModule,
+    NzModalModule,
   ],
   providers: [{ provide: NZ_ICONS, useValue: icons }],
   exports: [
@@ -84,6 +112,11 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
     Tabs,
     Drawer,
     Settings,
+    Table,
+    FormModal,
+    InputText,
+    InputNumber,
+    FormSwitch,
     // ng-zorro icons
     // Angular (re-export so feature modules don't need to re-import)
     CommonModule,
@@ -108,7 +141,9 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
     NzTabsModule,
     NzDrawerModule,
     NzFormModule,
-    NzFlexModule
+    NzFlexModule,
+    NzTableModule,
+    NzModalModule,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

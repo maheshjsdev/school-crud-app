@@ -1,0 +1,28 @@
+<nz-form-item>
+    @if(label){
+
+    <nz-form-label [nzSm]="6" [nzXs]="24">
+        @if(required){
+        <span class="text-red-500">*</span>
+        }
+        {{ label }}
+    </nz-form-label>
+    }
+
+    <nz-form-control>
+
+        <nz-input-wrapper>
+
+            <input nz-input [type]="type" [formControl]="control" [placeholder]="placeholder" />
+
+        </nz-input-wrapper>
+        @if(getErrorMessage()){
+
+        <div class="text-red-500 text-xs mt-1 absolute">
+            {{ getErrorMessage() }}
+        </div>
+
+        }
+    </nz-form-control>
+
+</nz-form-item>

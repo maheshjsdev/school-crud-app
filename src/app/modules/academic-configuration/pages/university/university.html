@@ -1,1 +1,37 @@
-<p>university works!</p>
+<div class="flex gap-3 justify-end mb-3">
+
+    <button nz-button nzType="primary" (click)="openModal()" [nzSize]="'small'">
+        Add
+    </button>
+    <button nz-button nzType="primary" [nzSize]="'small'">
+        Export
+    </button>
+</div>
+<app-table [data]="studentService.students()" [columns]="columns" [loading]="loading" [total]="total"
+    [pageSize]="pageSize" [pageIndex]="pageIndex" (pageChange)="onPageChange($event)" (edit)="editClicked($event)"
+    (delete)="showDeleteConfirm($event)" />
+
+
+<app-form-modal [isVisible]="isVisibleFormModal" title="Add / Update University" okText="Save" cancelText="Close"
+    [okLoading]="submitLoading" (ok)="submitForm()" (cancel)="closeModal()">
+
+    <form [formGroup]="addUpdateForm">
+        <app-input-text [form]="addUpdateForm" label="University Name" placeholder="Enter university name"
+            controlName="universityName" [required]="true" [minLength]="1" [maxLength]="100">
+        </app-input-text>
+        <app-input-text [form]="addUpdateForm" label="University Code" placeholder="Enter university code"
+            controlName="universityCode" [required]="false" [minLength]="0" [maxLength]="20">
+        </app-input-text>
+
+        <app-form-switch [form]="addUpdateForm" controlName="bitIsActive" label="Is Active">
+        </app-form-switch>
+
+        <!-- <app-input-text [form]="addUpdateForm" label="Email" placeholder="Enter email" controlName="email" type="email">
+        </app-input-text>
+
+
+        <app-input-text [form]="addUpdateForm" label="Phone" placeholder="Enter phone" controlName="phone"
+            patternMessage="Phone must be 10 digits">
+        </app-input-text> -->
+    </form>
+</app-form-modal>

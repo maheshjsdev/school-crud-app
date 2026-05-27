@@ -1,4 +1,11 @@
-<h2>Settings</h2>
+<div class="flex items-center gap-2 mb-4">
+    1. Tab position:
+    <nz-select [ngModel]="apiService.tabPosition()" style="width: 100px;" (ngModelChange)="onTabPositionChange($event)">
+        @for (option of options; track option.value) {
+        <nz-option [nzLabel]="option.label" [nzValue]="option.value" />
+        }
+    </nz-select>
+</div>
 
 <p>Settings content here</p>
 

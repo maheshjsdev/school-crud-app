@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
+import { ApiService } from '../../../core/services/api.service';
 
 @Component({
   selector: 'app-tabs',
@@ -8,16 +9,14 @@ import { NzTabPosition } from 'ng-zorro-antd/tabs';
   styleUrl: './tabs.css',
 })
 export class Tabs {
+  position: NzTabPosition = 'top';
 
+  constructor(public apiService: ApiService) {
+    this.position = this.apiService.tabPosition() as NzTabPosition;
+    console.log(this.position);
+  }
   @Input() tabs: {
     title: string;
     component: any;
   }[] = [];
-  position: NzTabPosition = 'top';
-  options = [
-    { value: 'top', label: 'top' },
-    { value: 'left', label: 'left' },
-    { value: 'right', label: 'right' },
-    { value: 'bottom', label: 'bottom' }
-  ];
 }

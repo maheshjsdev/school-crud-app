@@ -15,7 +15,7 @@ export class StudentList implements OnInit {
   }
 
   getData(): void {
-    this.studentService.getData().subscribe({
+    this.studentService.getData()?.subscribe({
       next: (data: any) => {
         this.studentService.setStudents(data);
       },
@@ -26,7 +26,7 @@ export class StudentList implements OnInit {
   }
 
   deleteClicked(id: string): void {
-    this.studentService.deleteStudent(id).subscribe({
+    this.studentService.deleteStudent(id)?.subscribe({
       next: (res: any) => {
         this.studentService.removeStudentFromState(id)
       },

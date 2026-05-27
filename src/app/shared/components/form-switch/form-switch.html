@@ -1,0 +1,24 @@
+<nz-form-item>
+
+    @if(label){
+
+    <nz-form-label [nzSpan]="6">
+
+        {{ label }}
+
+    </nz-form-label>
+
+    }
+
+    <nz-form-control [nzSpan]="10">
+
+        @if(control){
+
+        <nz-switch [formControl]="control">
+        </nz-switch>
+
+        }
+
+    </nz-form-control>
+
+</nz-form-item>
